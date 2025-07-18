@@ -6,6 +6,7 @@
 #define REV 0
 #define DEL 1
 #define CRU 2
+#define PS 3
 
 
 using namespace daisysp;
@@ -18,7 +19,7 @@ static DelayLine<float, MAX_DELAY> DSY_SDRAM_BSS dell;
 static DelayLine<float, MAX_DELAY> DSY_SDRAM_BSS delr;
 static Tone                                      tone;
 static Parameter deltime, cutoffParam, crushrate;
-static PitchShifter                              ps;
+PitchShifter DSY_SDRAM_BSS                ps;
 static Oscillator osc;
 int              mode = REV;
 
@@ -39,6 +40,7 @@ void GetDelaySample(float &outl, float &outr, float inl, float inr);
 
 void GetCrushSample(float &outl, float &outr, float inl, float inr);
 
+void GetPitchShifterSample(float &outl, float &outr, float inl, float inr);
 
 void AudioCallback(AudioHandle::InterleavingInputBuffer  in,
                    AudioHandle::InterleavingOutputBuffer out,
@@ -59,6 +61,7 @@ void AudioCallback(AudioHandle::InterleavingInputBuffer  in,
             case REV: GetReverbSample(outl, outr, inl, inr); break;
             case DEL: GetDelaySample(outl, outr, inl, inr); break;
             case CRU: GetCrushSample(outl, outr, inl, inr); break;
+            case PS: GetPitchShifterSample(outl, outr, inl, inr); break;
             default: outl = outr = 0;
         }
 
@@ -132,21 +135,24 @@ void UpdateKnobs(float &k1, float &k2)
             cutoff = cutoffParam.Process();
             tone.SetFreq(cutoff);
             crushmod = (int)crushrate.Process();
+        case PS:
+            ps.SetTransposition(k1);
+            // may need some additional part here with shifted
     }
 }
 
 void UpdateEncoder()
 {
     mode = mode + pod.encoder.Increment();
-    mode = (mode % 3 + 3) % 3;
+    mode = (mode % 4 + 4) % 4;
 }
 
 void UpdateLeds(float k1, float k2)
 {
     pod.led1.Set(
-        k1 * (mode == 2), k1 * (mode == 1), k1 * (mode == 0 || mode == 2));
+        k1 * (mode == 2 || mode == 3), k1 * (mode == 1 || mode == 3), k1 * (mode == 0 || mode == 2 || mode == 3));
     pod.led2.Set(
-        k2 * (mode == 2), k2 * (mode == 1), k2 * (mode == 0 || mode == 2));
+        k2 * (mode == 2 || mode == 3), k2 * (mode == 1 || mode == 3), k2 * (mode == 0 || mode == 2 || mode == 3));
 
     pod.UpdateLeds();
 }
@@ -201,6 +207,7 @@ void GetCrushSample(float &outl, float &outr, float inl, float inr)
     outr = tone.Process(crushsr);
 }
 
+// TODO;
 void GetPitchShifterSample(float &outl, float &outr, float inl, float inr)
 {
     unshifted = osc.Process();

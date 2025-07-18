@@ -1,5 +1,5 @@
 # Project Name
-TARGET = MultiEffect
+TARGET = multi-effect
 
 USE_DAISYSP_LGPL = 1
 
