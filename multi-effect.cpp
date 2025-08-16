@@ -2,7 +2,7 @@
 #include "daisy_pod.h"
 
 // Set max delay time to 0.75 of samplerate.
-#define MAX_DELAY static_cast<size_t>(48000 * 2.5f)
+#define MAX_DELAY static_cast<size_t>(48000 * 0.75f)
 #define REV 0
 #define DEL 1
 #define CRU 2

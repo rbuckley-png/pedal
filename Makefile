@@ -1,10 +1,10 @@
 # Project Name
-TARGET = reverb-shimmer
+TARGET = pass-thru
 
 USE_DAISYSP_LGPL = 1
 
 # Sources
-CPP_SOURCES = reverb-shimmer.cpp 
+CPP_SOURCES = pass-thru.cpp 
 
 # Library Locations
 LIBDAISY_DIR = libDaisy
