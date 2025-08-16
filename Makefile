@@ -1,10 +1,10 @@
 # Project Name
-TARGET = multi-effect
+TARGET = reverb-shimmer
 
 USE_DAISYSP_LGPL = 1
 
 # Sources
-CPP_SOURCES = multi-effect.cpp 
+CPP_SOURCES = reverb-shimmer.cpp 
 
 # Library Locations
 LIBDAISY_DIR = libDaisy
