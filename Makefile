@@ -4,7 +4,7 @@ TARGET = pass-thru
 USE_DAISYSP_LGPL = 1
 
 # Sources
-CPP_SOURCES = pass-thru.cpp 
+CPP_SOURCES = pass-thru.cpp	hardware-init.cpp
 
 # Library Locations
 LIBDAISY_DIR = libDaisy

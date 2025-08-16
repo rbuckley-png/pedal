@@ -1,5 +1,6 @@
 #include "daisysp.h"
 #include "daisy_pod.h"
+#include "hardware-init.cpp"
 
 // Set max delay time to 0.75 of samplerate.
 #define MAX_DELAY static_cast<size_t>(48000 * 0.75f)
@@ -7,6 +8,7 @@
 #define DEL 1
 #define CRU 2
 #define PS 3
+
 
 
 using namespace daisysp;
@@ -78,6 +80,8 @@ int main(void)
     // initialize pod hardware and oscillator daisysp module
     float sample_rate;
 
+    intializeEffectHardware(AudioCallback);
+    
     //Inits and sample rate
     pod.Init();
     pod.SetAudioBlockSize(4);
@@ -110,8 +114,6 @@ int main(void)
     osc.SetWaveform(Oscillator::WAVE_POLYBLEP_TRI);
 
     // start callback
-    pod.StartAdc();
-    pod.StartAudio(AudioCallback);
 
     while(1) {}
 }
