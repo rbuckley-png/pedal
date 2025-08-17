@@ -1,10 +1,9 @@
 
-#include "hardware-init.cpp"
+#include "hardware-init.h"
 
 using namespace daisy;
 using namespace daisysp;
 
-DaisyPod pod;
 
 // Audio callback: copy input to output
 void AudioCallback(AudioHandle::InterleavingInputBuffer  in,
@@ -25,11 +24,6 @@ int main(void)
 {
     // Initialize hardware
     intializeEffectHardware(AudioCallback);
-
-    pod.led1.Set(1.0f, 0.0f, 0.0f); // red, green, blue
-    pod.led2.Set(1.0f, 0.0f, 0.0f);
-
-     pod.UpdateLeds();
     
     
     while(1)
